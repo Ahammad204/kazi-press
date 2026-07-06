@@ -1,6 +1,10 @@
 import config from "../../config";
 import { prisma } from "../../lib/prisma";
 import { stripe } from "../../lib/stripe";
+import {
+  handleChangeSubscription,
+  handleCheckoutCompleted,
+} from "./subscription.utils";
 
 const createCheckoutSession = async (userId: string) => {
   const transactionResult = await prisma.$transaction(async (tx) => {
@@ -54,17 +58,23 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
   );
   switch (event.type) {
     case "checkout.session.completed":
+      await handleCheckoutCompleted(event.data.object);
+
       break;
     case "customer.subscription.updated":
+      await handleChangeSubscription(event.data.object);
       break;
+
     case "customer.subscription.deleted":
+      await handleChangeSubscription(event.data.object);
       break;
+
     default:
-      // Unexpected event type
       console.log(`Unhandled event type ${event.type}.`);
       break;
   }
 };
+
 export const subscriptionServices = {
   createCheckoutSession,
   handleWebhook,
