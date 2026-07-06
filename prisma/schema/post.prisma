@@ -9,6 +9,7 @@ model Post {
   views      Int        @default(0)
   createdAt  DateTime   @default(now())
   UpdatedAt  DateTime   @updatedAt
+  IsPremium  Boolean    @default(false)
   authorId   String
   author     User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
 
