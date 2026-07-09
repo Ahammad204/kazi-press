@@ -10,6 +10,7 @@ import path from "node:path";
 import { notFound } from "./middlewares/notFound";
 import { globalErrorHandler } from "./middlewares/globalErrorHandlar";
 import { subscriptionRouter } from "./modules/subscription/subscription.route";
+import { premiumRoutes } from "./modules/premium/premium.route";
 
 const app: Application = express();
 
@@ -93,6 +94,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/subscription", subscriptionRouter);
+app.use("/api/premium", premiumRoutes);
 
 // app.use((req: Request, res: Response) => {
 //   res.status(404).json({
