@@ -6,6 +6,7 @@ export interface ICreatePostPayload {
   content: string;
   thumbnail?: string;
   isFeatured?: boolean;
+  IsPremium?: boolean;
   status?: PostStatus;
   tags: string[];
 }
